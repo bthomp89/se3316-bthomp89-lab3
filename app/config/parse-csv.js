@@ -26,11 +26,10 @@ fs.createReadStream("../data/raw_albums.csv")
   .on("error", function (error) {
     console.log(error.message);
   });
-/*
 fs.createReadStream("../data/raw_artists.csv")
   .pipe(parser({ delimiter: ",", from_line: 2 }))
   .on("data", function (row) {
-    //console.log(row);
+    //onsole.log(row);
     insertRow(row, "Artists");
   })
   .on("end", function () {
@@ -39,6 +38,7 @@ fs.createReadStream("../data/raw_artists.csv")
   .on("error", function (error) {
     console.log(error.message);
   });
+
 fs.createReadStream("../data/raw_tracks.csv")
   .pipe(parser({ delimiter: ",", from_line: 2 }))
   .on("data", function (row) {
@@ -51,4 +51,3 @@ fs.createReadStream("../data/raw_tracks.csv")
   .on("error", function (error) {
     console.log(error.message);
   });
-  */

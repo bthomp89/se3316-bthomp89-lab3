@@ -49,12 +49,58 @@ const addAlbums = function (error) {
   });
 };
 
+const addArtists = function (error) {
+  if (error) {
+    throw error;
+  }
+  var sql = `CREATE TABLE IF NOT EXISTS Artists (
+    artist_id INT NOT NULL PRIMARY KEY,
+    artist_name VARCHAR(150),
+    artist_active_year_begin VARCHAR(50),
+    artist_active_year_end VARCHAR(50),
+    artist_location VARCHAR(1055),
+    artist_associated_labels VARCHAR(255),
+    artist_handle VARCHAR(100)
+  )`;
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Artists Table created");
+  });
+};
+
+const addTracks = function (error) {
+  if (error) {
+    throw error;
+  }
+  var sql = `CREATE TABLE IF NOT EXISTS Tracks (
+    track_id INT NOT NULL PRIMARY KEY,
+    album_id VARCHAR(50),
+    album_title VARCHAR(255),
+    artist_id INT(50),
+    artist_name VARCHAR(150),
+    track_date_created VARCHAR(50),
+    track_date_recorded VARCHAR(50),
+    track_duration VARCHAR(50),
+    track_genres VARCHAR(1055),
+    track_language_code VARCHAR(25),
+    track_listens INT,
+    track_number INT,
+    track_title VARCHAR(255)
+  )`;
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Tracks Table created");
+  });
+};
+
 // open the MySQL connection
 connection.connect((error) => {
   if (error) throw error;
   console.log("Successfully Connected to the Database.");
   addGenres();
   addAlbums();
+  addArtists();
+  addTracks();
 });
 
 module.exports = connection;
