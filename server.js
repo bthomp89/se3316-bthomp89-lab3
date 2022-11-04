@@ -20,8 +20,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Brayden's Lab 3." });
 });
 
-require("./app/routes/routes.js");
-app;
+app.get("/helloworld", (req, res) => {
+  res.json({ message: "HELLO" });
+});
+
+//require("./app/routes/routes.js");
+//app;
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
