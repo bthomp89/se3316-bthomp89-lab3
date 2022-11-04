@@ -81,7 +81,7 @@ const addTracks = function (error) {
     track_date_created VARCHAR(50),
     track_date_recorded VARCHAR(50),
     track_duration VARCHAR(50),
-    track_genres VARCHAR(1055),
+    track_genres VARCHAR(4500),
     track_language_code VARCHAR(25),
     track_listens INT,
     track_number INT,

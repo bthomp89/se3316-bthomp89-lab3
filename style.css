@@ -1,0 +1,53 @@
+body {
+  background-color: lightgreen;
+}
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 6ch;
+}
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+}
+
+li {
+  display: inline;
+  margin-left: 3px;
+}
+
+button {
+  padding: 8px;
+  background-color: #dddddd;
+  width: 90px;
+  height: 40px;
+}
+
+nav {
+  background-color: white;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+}
+
+li button:hover {
+  background-color: grey;
+}
+
+#search_li {
+  position: absolute;
+  right: 150px;
+  padding-top: 10px;
+}
+
+#playlists {
+  background-color: white;
+  display: inline-flexbox;
+  width: 150px;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  height: max-content;
+  text-align: center;
+}
