@@ -93,6 +93,19 @@ const addTracks = function (error) {
   });
 };
 
+const addPlaylists = function (error) {
+  if (error) {
+    throw error;
+  }
+  var sql = `CREATE TABLE IF NOT EXISTS Playlists (
+    playlist_name VARCHAR(50) NOT NULL PRIMARY KEY
+  )`;
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Playlist Table created");
+  });
+};
+
 // open the MySQL connection
 connection.connect((error) => {
   if (error) throw error;
@@ -101,6 +114,7 @@ connection.connect((error) => {
   addAlbums();
   addArtists();
   addTracks();
+  addPlaylists();
 });
 
 module.exports = connection;

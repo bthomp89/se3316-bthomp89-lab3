@@ -29,10 +29,23 @@
         </li>
       </ul>
     </nav>
-    <div id="playlists">
-      <h4>Playlists</h4>
+    <div id="playlists" class="playlist_table">
+      <div class="dropdown">
+        <button onclick="dropFunction()" class="dropbtn">Playlists ></button>
+        <div id="drop-content" class="dropdown-content">
+          <p>PL1</p>
+          <p>PL2</p>
+          <p>PL3</p>
+        </div>
+      </div>
+      <label for="create_playlist_name" id="create_playlist_label">
+        New Playlist Name:
+      </label>
+      <input id="create_playlist_input" />
+      <button onclick="createPlaylist()" class="create_playlist_btn">
+        Create Playlist
+      </button>
     </div>
-    <!-- Embedded JavaScript go here -->
     <script src="app.js"></script>
   </body>
 </html>
