@@ -17,3 +17,22 @@ window.onclick = function (event) {
     }
   }
 };
+
+//function to get all genre names, IDs and parent IDs
+function findGenres() {
+  fetch("/genres").then((res) =>
+    res.json().then((data) => {
+      const l = document.getElementById("displayed_data_list");
+      data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(
+          document.createTextNode(
+            `Genre ID: ${e.genre_id}, Name: ${e.title}, Parent: ${e.parent}`
+          )
+        );
+        item.appendChild;
+        l.appendChild(item);
+      });
+    })
+  );
+}

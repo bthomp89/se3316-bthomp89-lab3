@@ -70,7 +70,7 @@ function insertRow(data, table) {
     ]);
   } else if (table == "Tracks") {
     insertQuery =
-      "INSERT INTO ?? (??,??,??,??,??,??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      "INSERT INTO ?? (??,??,??,??,??,??,??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     query = mysql.format(insertQuery, [
       "Tracks",
       "track_id",
@@ -78,6 +78,7 @@ function insertRow(data, table) {
       "album_title",
       "artist_id",
       "artist_name",
+      "tags",
       "track_date_created",
       "track_date_recorded",
       "track_duration",
@@ -91,6 +92,7 @@ function insertRow(data, table) {
       data.album_title,
       data.artist_id,
       data.artist_name,
+      data.tags,
       data.track_date_created,
       data.track_date_recorded,
       data.track_duration,

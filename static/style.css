@@ -12,7 +12,7 @@ ul {
   overflow: hidden;
 }
 
-li {
+nav li {
   display: inline;
   margin-left: 3px;
 }
@@ -44,7 +44,7 @@ li button:hover {
 #playlists {
   background-color: white;
   display: inline-flexbox;
-  width: 150px;
+  width: 169px;
   border: 1px;
   border-color: black;
   border-style: solid;
@@ -77,14 +77,27 @@ li button:hover {
 
 #create_playlist_label {
   position: absolute;
+  display: flex;
   bottom: 39%;
-  width: 130px;
-  right: 89.65%;
+  align-self: center;
 }
 
 #create_playlist_input {
   position: absolute;
+  display: flex;
+  max-width: 15%;
   bottom: 36%;
-  width: 130px;
-  right: 89.3%;
+}
+
+#displayed_data {
+  background-color: white;
+  border: 1px;
+  border-color: black;
+  border-style: solid;
+  width: 100%;
+}
+
+#big_div {
+  display: flex;
+  gap: 2rem;
 }

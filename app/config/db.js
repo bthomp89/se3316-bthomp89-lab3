@@ -78,6 +78,7 @@ const addTracks = function (error) {
     album_title VARCHAR(255),
     artist_id INT(50),
     artist_name VARCHAR(150),
+    tags VARCHAR(4050),
     track_date_created VARCHAR(50),
     track_date_recorded VARCHAR(50),
     track_duration VARCHAR(50),

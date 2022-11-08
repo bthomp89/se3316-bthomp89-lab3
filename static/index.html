@@ -12,7 +12,7 @@
     <nav>
       <ul>
         <li>
-          <button id="genrebtn">Genre</button>
+          <button onclick="findGenres()" id="genrebtn">Genre</button>
         </li>
         <li>
           <button id="albumbtn">Album</button>
@@ -29,22 +29,28 @@
         </li>
       </ul>
     </nav>
-    <div id="playlists" class="playlist_table">
-      <div class="dropdown">
-        <button onclick="dropFunction()" class="dropbtn">Playlists ></button>
-        <div id="drop-content" class="dropdown-content">
-          <p>PL1</p>
-          <p>PL2</p>
-          <p>PL3</p>
+    <div id="big_div">
+      <div id="playlists" class="playlist_table">
+        <div class="dropdown">
+          <button onclick="dropFunction()" class="dropbtn">Playlists ></button>
+          <div id="drop-content" class="dropdown-content">
+            <p>PL1</p>
+            <p>PL2</p>
+            <p>PL3</p>
+          </div>
         </div>
+        <label for="create_playlist_name" id="create_playlist_label">
+          New Playlist Name:
+        </label>
+        <input id="create_playlist_input" />
+        <button onclick="createPlaylist()" class="create_playlist_btn">
+          Create Playlist
+        </button>
       </div>
-      <label for="create_playlist_name" id="create_playlist_label">
-        New Playlist Name:
-      </label>
-      <input id="create_playlist_input" />
-      <button onclick="createPlaylist()" class="create_playlist_btn">
-        Create Playlist
-      </button>
+
+      <div id="displayed_data">
+        <ul id="displayed_data_list"></ul>
+      </div>
     </div>
     <script src="app.js"></script>
   </body>
