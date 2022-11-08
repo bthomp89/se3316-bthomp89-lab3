@@ -35,8 +35,6 @@ app.get("/", (req, res) => {
 
 app.get("/genres", (req, res) => {
   let query = "SELECT genre_id, title, parent FROM Genres";
-  //let query = mysql.format(selectQuery, ["todo", "user", userName]);
-  // query = SELECT * FROM `todo` where `user` = 'shahid'
   connection.query(query, (err, data) => {
     if (err) {
       console.error(err);
@@ -76,6 +74,29 @@ app.get("/tracks/:track_id", (req, res) => {
     "track_id",
     req.params.track_id,
   ]);
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+app.get("/tracks/track_id/:search_field", (req, res) => {
+  let query = `SELECT track_id, track_title, album_title FROM Tracks WHERE track_title LIKE '%${req.params.search_field}%' OR album_title LIKE '%${req.params.search_field}%';`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+app.get("/artists/artist_id/:search_field", (req, res) => {
+  let query = `SELECT artist_id, artist_name FROM Artists WHERE artist_name LIKE '%${req.params.search_field}%';`;
 
   connection.query(query, (err, data) => {
     if (err) {
