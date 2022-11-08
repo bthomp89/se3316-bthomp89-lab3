@@ -28,11 +28,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", express.static("static"));
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Brayden's Lab 3." });
-});
-
 app.get("/genres", (req, res) => {
   let query = "SELECT genre_id, title, parent FROM Genres";
   connection.query(query, (err, data) => {
@@ -97,6 +92,58 @@ app.get("/tracks/track_id/:search_field", (req, res) => {
 
 app.get("/artists/artist_id/:search_field", (req, res) => {
   let query = `SELECT artist_id, artist_name FROM Artists WHERE artist_name LIKE '%${req.params.search_field}%';`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+//need to figure out how to add the playlist_name into the Playlists table && add throwing error if playlist_name already exists
+app.post("/playlists/create/:name", (req, res) => {
+  let query = `CREATE TABLE IF NOT EXISTS ${req.params.name} (
+    track_id INT NOT NULL PRIMARY KEY
+  )`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+//add verification that track_id exists
+app.post("/playlists/add/:playlist_name/:track_id", (req, res) => {
+  let query = `INSERT INTO ${req.params.playlist_name} VALUES (${req.params.track_id})`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+app.get("/playlists/tracks/:playlist_name", (req, res) => {
+  let query = `SELECT * FROM ${req.params.playlist_name}`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+app.delete("/playlists/delete/:playlist_name", (req, res) => {
+  let query = `DROP TABLE ${req.params.playlist_name}`;
 
   connection.query(query, (err, data) => {
     if (err) {
