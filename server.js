@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const dbConfig = require("./app/config/db.config.js");
+const Joi = require("joi");
 
 const express = require("express");
 const cors = require("cors");
@@ -115,6 +116,12 @@ app.get("/artists/name/:name", (req, res) => {
 
 //Create a new list to save a list of tracks with a given list name. Return an error if name exists.
 app.post("/playlists/create/:name", (req, res) => {
+  // const schema = {
+  //   name: Joi.string().min(2).max(20).required(),
+  // };
+  // const result = schema.validate(req.params.name);
+  // console.log(result);
+
   let query = `CREATE TABLE ${req.params.name} (
     track_id INT NOT NULL PRIMARY KEY,
     track_title VARCHAR(255),
@@ -196,7 +203,7 @@ app.get("/playlists", (req, res) => {
 
 //get album info given album name
 app.get("/albums/:name", (req, res) => {
-  let query = `SELECT album_id, album_title, album_tracks, album_date_released FROM Albums WHERE album_title LIKE '%${req.params.name}%' LIMIT 15;`;
+  let query = `SELECT album_id, album_title, album_tracks, album_date_released, artist_name FROM Albums WHERE album_title LIKE '%${req.params.name}%' LIMIT 15;`;
 
   connection.query(query, (err, data) => {
     if (err) {

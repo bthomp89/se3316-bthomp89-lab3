@@ -1,3 +1,12 @@
+function validateInput(input) {
+  return input
+    .replace(/&/g, "&and;")
+    .replace(/</, "&lt;")
+    .replace(/>/, "&gt;")
+    .replace(/"/, "&quot;");
+}
+
+//Shows Playlist Names in Dropdown
 async function showPlaylist() {
   fetch("/playlists").then((res) =>
     res.json().then((data) => {
@@ -8,7 +17,6 @@ async function showPlaylist() {
       data.forEach((e) => {
         const item = document.createElement("option");
         const option = document.createTextNode(`${e.TABLE_NAME}`);
-        //l.addEventListener("change", displayPlaylist);
         item.appendChild(option);
         l.appendChild(item);
       });
@@ -39,8 +47,10 @@ async function findGenres() {
 
 async function searchArtists() {
   var searchedArtistId = document.getElementById("searchfield").value;
-  if (searchedArtistId != "") {
-    fetch(`/artists/name/${searchedArtistId}`).then((res) =>
+  var validatedInput = validateInput(searchedArtistId);
+  console.log(validatedInput);
+  if (validatedInput != "") {
+    fetch(`/artists/name/${validatedInput}`).then((res) =>
       res.json().then((data) => {
         const l = document.getElementById("displayed_data_list");
         while (l.firstChild) {
@@ -69,8 +79,10 @@ var trackDuration;
 
 async function searchTracks() {
   var searchedValue = document.getElementById("searchfield").value;
-  if (searchedValue != "") {
-    fetch(`/tracks/track_id/${searchedValue}`).then((res) =>
+  var validatedInput = validateInput(searchedValue);
+  console.log(validatedInput);
+  if (validatedInput != "") {
+    fetch(`/tracks/track_id/${validatedInput}`).then((res) =>
       res.json().then((data) => {
         const l = document.getElementById("displayed_data_list");
         while (l.firstChild) {
@@ -80,7 +92,7 @@ async function searchTracks() {
           const item = document.createElement("li");
           const addBtn = document.createElement("button");
           addBtn.id = "add_track_btn";
-          addBtn.addEventListener("click", function () {
+          addBtn.addEventListener("click", async function () {
             trackID = `${e.track_id}`;
             trackTitle = `${e.track_title}`;
             artistName = `${e.artist_name}`;
@@ -91,7 +103,7 @@ async function searchTracks() {
           addBtn.appendChild(document.createTextNode("Add"));
           item.appendChild(
             document.createTextNode(
-              `Track ID: ${e.track_id}, Track Title: ${e.track_title}, Artist Name: ${e.artist_name}, Album Name: ${e.album_title}, Duration: ${e.track_duration}    `
+              `Track ID: ${e.track_id}, Track Title: ${e.track_title}, Artist Name: ${e.artist_name}, Album Name: ${e.album_title}, Duration (sec): ${e.track_duration}    `
             )
           );
           item.appendChild(addBtn);
@@ -112,8 +124,11 @@ async function addSongToPlaylist() {
 
 async function searchAlbums() {
   var searchedAlbum = document.getElementById("searchfield").value;
-  if (searchedAlbum != "") {
-    fetch(`/albums/${searchedAlbum}`).then((res) =>
+  var validatedInput = validateInput(searchedAlbum);
+  console.log(validatedInput);
+
+  if (validatedInput != "") {
+    fetch(`/albums/${validatedInput}`).then((res) =>
       res.json().then((data) => {
         const l = document.getElementById("displayed_data_list");
         while (l.firstChild) {
@@ -123,7 +138,7 @@ async function searchAlbums() {
           const item = document.createElement("li");
           item.appendChild(
             document.createTextNode(
-              `Album ID: ${e.album_id}, Album Title: ${e.album_title}, Tracks: ${e.album_tracks}, Date Released: ${e.album_date_released}`
+              `Album ID: ${e.album_id}, Album Title: ${e.album_title}, Tracks: ${e.album_tracks}, Date Released: ${e.album_date_released}, Artist Name: ${e.artist_name}`
             )
           );
           item.appendChild;
@@ -136,8 +151,11 @@ async function searchAlbums() {
 
 async function createPlaylist() {
   var playListName = document.getElementById("playlist_input_name").value;
-  if (playListName != "") {
-    fetch(`/playlists/create/${playListName}`, { method: "POST" });
+  var validatedInput = validateInput(playListName);
+  console.log(validatedInput);
+
+  if (validatedInput != "") {
+    fetch(`/playlists/create/${validatedInput}`, { method: "POST" });
   } else {
     console.log("Error When Creating Playlist");
   }
@@ -145,8 +163,11 @@ async function createPlaylist() {
 
 async function deletePlaylist() {
   var playListName = document.getElementById("playlist_input_name").value;
-  if (playListName != "") {
-    fetch(`/playlists/delete/${playListName}`, { method: "DELETE" });
+  var validatedInput = validateInput(playListName);
+  console.log(validatedInput);
+
+  if (validatedInput != "") {
+    fetch(`/playlists/delete/${validatedInput}`, { method: "DELETE" });
   } else {
     console.log("Error When Deleted Playlist");
   }
@@ -168,7 +189,7 @@ async function displayPlaylist() {
         const item = document.createElement("li");
         item.appendChild(
           document.createTextNode(
-            `Track ID: ${e.track_id}, Title: ${e.track_title}, Artist: ${e.artist_name}, Album: ${e.album_title}, Duration: ${e.track_duration}`
+            `Track ID: ${e.track_id}, Title: ${e.track_title}, Artist: ${e.artist_name}, Album: ${e.album_title}, Duration (sec): ${e.track_duration}`
           )
         );
         l.appendChild(item);
