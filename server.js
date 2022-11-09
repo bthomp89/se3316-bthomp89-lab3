@@ -1,6 +1,7 @@
 const mysql = require("mysql");
 const dbConfig = require("./app/config/db.config.js");
 const Joi = require("joi");
+const { body, validationResult } = require("express-validator");
 
 const express = require("express");
 const cors = require("cors");
@@ -140,9 +141,7 @@ app.post("/playlists/create/:name", (req, res) => {
 });
 
 //Save a list of track IDs to a given list name.
-//Return an error if the list name does not exist.
-//Replace existing track IDs with new values if the list exists
-//NOTE: ADD PART 3 of this question
+//Return an error if the list name does not exist
 app.post(
   "/playlists/add/:playlist_name/:track_id/:track_title/:artist_name/:album_title/:duration",
   (req, res) => {
@@ -218,13 +217,14 @@ app.get("/albums/:name", (req, res) => {
 app.get("/playlists/info/:playlist_name", (req, res) => {
   let query = `SELECT COUNT(*) AS tracks, SUM(track_duration) AS duration FROM ${req.params.playlist_name}`;
 
-  connection.query(query, (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    res.send(data);
-  });
+  if (req.params.playlist_name)
+    connection.query(query, (err, data) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.send(data);
+    });
 });
 
 //require("./app/routes/routes.js");
