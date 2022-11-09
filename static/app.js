@@ -1,4 +1,4 @@
-function showPlaylist() {
+async function showPlaylist() {
   fetch("/playlists").then((res) =>
     res.json().then((data) => {
       const l = document.getElementById("dropbtn");
@@ -16,7 +16,7 @@ function showPlaylist() {
   );
 }
 
-function findGenres() {
+async function findGenres() {
   fetch("/genres").then((res) =>
     res.json().then((data) => {
       const l = document.getElementById("displayed_data_list");
@@ -37,7 +37,7 @@ function findGenres() {
   );
 }
 
-function searchArtists() {
+async function searchArtists() {
   var searchedArtistId = document.getElementById("searchfield").value;
   if (searchedArtistId != "") {
     fetch(`/artists/name/${searchedArtistId}`).then((res) =>
@@ -67,7 +67,7 @@ var artistName;
 var albumTitle;
 var trackDuration;
 
-function searchTracks() {
+async function searchTracks() {
   var searchedValue = document.getElementById("searchfield").value;
   if (searchedValue != "") {
     fetch(`/tracks/track_id/${searchedValue}`).then((res) =>
@@ -102,7 +102,7 @@ function searchTracks() {
   }
 }
 
-function addSongToPlaylist() {
+async function addSongToPlaylist() {
   const selectedPlaylist = document.getElementById("dropbtn").value;
   fetch(
     `/playlists/add/${selectedPlaylist}/${trackID}/${trackTitle}/${artistName}/${albumTitle}/${trackDuration}`,
@@ -110,7 +110,7 @@ function addSongToPlaylist() {
   );
 }
 
-function searchAlbums() {
+async function searchAlbums() {
   var searchedAlbum = document.getElementById("searchfield").value;
   if (searchedAlbum != "") {
     fetch(`/albums/${searchedAlbum}`).then((res) =>
@@ -134,7 +134,7 @@ function searchAlbums() {
   }
 }
 
-function createPlaylist() {
+async function createPlaylist() {
   var playListName = document.getElementById("playlist_input_name").value;
   if (playListName != "") {
     fetch(`/playlists/create/${playListName}`, { method: "POST" });
@@ -143,7 +143,7 @@ function createPlaylist() {
   }
 }
 
-function deletePlaylist() {
+async function deletePlaylist() {
   var playListName = document.getElementById("playlist_input_name").value;
   if (playListName != "") {
     fetch(`/playlists/delete/${playListName}`, { method: "DELETE" });
@@ -152,14 +152,18 @@ function deletePlaylist() {
   }
 }
 
-function displayPlaylist() {
+async function displayPlaylist() {
   const selectedPlaylist = document.getElementById("dropbtn").value;
+  if (document.querySelector("#newDiv")) {
+    document.getElementById("newDiv").remove();
+  }
   fetch(`/playlists/tracks/${selectedPlaylist}`).then((res) =>
     res.json().then((data) => {
       const l = document.getElementById("displayed_data_list");
       while (l.firstChild) {
         l.removeChild(l.firstChild);
       }
+      displayPlaylistInfo();
       data.forEach((e) => {
         const item = document.createElement("li");
         item.appendChild(
@@ -167,8 +171,28 @@ function displayPlaylist() {
             `Track ID: ${e.track_id}, Title: ${e.track_title}, Artist: ${e.artist_name}, Album: ${e.album_title}, Duration: ${e.track_duration}`
           )
         );
-        item.appendChild;
         l.appendChild(item);
+      });
+    })
+  );
+}
+
+async function displayPlaylistInfo() {
+  const selectedPlaylist = document.getElementById("dropbtn").value;
+  fetch(`/playlists/info/${selectedPlaylist}`).then((res) =>
+    res.json().then((data) => {
+      const l = document.getElementById("playlist_top");
+      const newDiv = document.createElement("div");
+      newDiv.id = "newDiv";
+      data.forEach((e) => {
+        const item = document.createElement("p");
+        item.appendChild(
+          document.createTextNode(
+            `# of Tracks: ${e.tracks}, Duration (seconds): ${e.duration}`
+          )
+        );
+        newDiv.appendChild(item);
+        l.appendChild(newDiv);
       });
     })
   );

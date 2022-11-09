@@ -53,7 +53,7 @@ li button:hover {
 }
 
 #playlist_features {
-  padding-top: 130%;
+  padding-top: 75%;
 }
 
 .create_playlist_btn {
@@ -62,6 +62,10 @@ li button:hover {
 }
 
 .delete_playlist_btn {
+  margin-top: 5%;
+  width: 80%;
+}
+.display_playlist_btn {
   margin-top: 5%;
   width: 80%;
 }

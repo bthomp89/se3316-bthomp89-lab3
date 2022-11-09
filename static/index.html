@@ -31,12 +31,14 @@
     </nav>
     <div id="big_div">
       <div id="playlists" class="playlist_table">
-        <select onclick="showPlaylist()" id="dropbtn">
-          <option selected disabled hidden>Select Playlist</option>
-        </select>
-        <button onclick="displayPlaylist()" class="create_playlist_btn">
-          Show Playlist
-        </button>
+        <div id="playlist_top">
+          <select onclick="showPlaylist()" id="dropbtn">
+            <option selected disabled hidden>Select Playlist</option>
+          </select>
+          <button onclick="displayPlaylist()" class="display_playlist_btn">
+            Show Playlist
+          </button>
+        </div>
         <div id="playlist_features">
           <label for="playlist_input_name">Playlist Name</label>
           <input id="playlist_input_name" />

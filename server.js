@@ -102,7 +102,7 @@ app.get("/tracks/track_id/:search_field", (req, res) => {
 app.get("/artists/name/:name", (req, res) => {
   let query = `SELECT artist_id, artist_name, 
   artist_active_year_begin, artist_active_year_end, 
-  artist_location, artist_associated_labels, artist_handle FROM Artists WHERE artist_name LIKE '%${req.params.name}%';`;
+  artist_location, artist_associated_labels, artist_handle FROM Artists WHERE artist_name LIKE '%${req.params.name}%' LIMIT 15;`;
 
   connection.query(query, (err, data) => {
     if (err) {
@@ -135,7 +135,7 @@ app.post("/playlists/create/:name", (req, res) => {
 //Save a list of track IDs to a given list name.
 //Return an error if the list name does not exist.
 //Replace existing track IDs with new values if the list exists
-//NOTE: ADD PART 2 and 3 of this question
+//NOTE: ADD PART 3 of this question
 app.post(
   "/playlists/add/:playlist_name/:track_id/:track_title/:artist_name/:album_title/:duration",
   (req, res) => {
@@ -163,7 +163,7 @@ app.get("/playlists/tracks/:playlist_name", (req, res) => {
   });
 });
 
-//Delete a list of tracks with a given name , return an error if the given list doesn’t exist
+//Delete a list of tracks with a given name , return a 500 error if the given list doesn’t exist
 app.delete("/playlists/delete/:playlist_name", (req, res) => {
   let query = `DROP TABLE ${req.params.playlist_name}`;
 
@@ -176,9 +176,7 @@ app.delete("/playlists/delete/:playlist_name", (req, res) => {
   });
 });
 
-//Get a list of list names,
-//number of tracks that are saved in each list and the total play time of each list.
-//NOTE: Do Part 2 for this question
+//Get a list of list names
 app.get("/playlists", (req, res) => {
   let query = `SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE 
   TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Albums' 
@@ -199,6 +197,19 @@ app.get("/playlists", (req, res) => {
 //get album info given album name
 app.get("/albums/:name", (req, res) => {
   let query = `SELECT album_id, album_title, album_tracks, album_date_released FROM Albums WHERE album_title LIKE '%${req.params.name}%' LIMIT 15;`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+//get info about playlist
+app.get("/playlists/info/:playlist_name", (req, res) => {
+  let query = `SELECT COUNT(*) AS tracks, SUM(track_duration) AS duration FROM ${req.params.playlist_name}`;
 
   connection.query(query, (err, data) => {
     if (err) {
