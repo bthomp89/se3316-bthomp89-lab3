@@ -1,6 +1,19 @@
 const connection = require("./db.js");
 const mysql = require("mysql");
 
+function hmsToSecondsOnly(str) {
+  var p = str.split(":"),
+    s = 0,
+    m = 1;
+
+  while (p.length > 0) {
+    s += m * parseInt(p.pop(), 10);
+    m *= 60;
+  }
+
+  return s;
+}
+
 function insertRow(data, table) {
   let insertQuery = "";
   let query = null;
@@ -95,7 +108,7 @@ function insertRow(data, table) {
       data.tags,
       data.track_date_created,
       data.track_date_recorded,
-      data.track_duration,
+      hmsToSecondsOnly(data.track_duration),
       data.track_genres,
       data.track_language_code,
       data.track_listens,
