@@ -114,9 +114,8 @@ app.get("/artists/name/:name", (req, res) => {
 });
 
 //Create a new list to save a list of tracks with a given list name. Return an error if name exists.
-//NOTE: NEED TO ADD ERROR PART
 app.post("/playlists/create/:name", (req, res) => {
-  let query = `CREATE TABLE IF NOT EXISTS ${req.params.name} (
+  let query = `CREATE TABLE ${req.params.name} (
     track_id INT NOT NULL PRIMARY KEY,
     track_title VARCHAR(255),
     artist_name VARCHAR(150),
@@ -127,7 +126,7 @@ app.post("/playlists/create/:name", (req, res) => {
   connection.query(query, (err, data) => {
     if (err) {
       console.error(err);
-      return;
+      return res.status(500).send("Error");
     }
     res.send(data);
   });
@@ -144,7 +143,7 @@ app.post(
     connection.query(query, (err, data) => {
       if (err) {
         console.error(err);
-        return;
+        return res.status(500).send("Error");
       }
       res.send(data);
     });
@@ -164,16 +163,14 @@ app.get("/playlists/tracks/:playlist_name", (req, res) => {
   });
 });
 
-//Delete a list of tracks with a given name.
-//Return an error if the given list doesn’t exist
-//NOTE: Do part 2 of this part
+//Delete a list of tracks with a given name , return an error if the given list doesn’t exist
 app.delete("/playlists/delete/:playlist_name", (req, res) => {
   let query = `DROP TABLE ${req.params.playlist_name}`;
 
   connection.query(query, (err, data) => {
     if (err) {
       console.error(err);
-      return;
+      return res.status(500).send("Error");
     }
     res.send(data);
   });

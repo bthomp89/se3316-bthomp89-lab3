@@ -16,16 +16,6 @@ function showPlaylist() {
   );
 }
 
-/*
-function playlistDropDown(name) {
-  const dropDownBtn = document.getElementById("dropbtn");
-  const dropDownValue = dropDownBtn.value;
-  name = dropDownValue;
-  fetch(`/playlists/${name}`)
-}
-*/
-
-//function to get all genre names, IDs and parent IDs
 function findGenres() {
   fetch("/genres").then((res) =>
     res.json().then((data) => {
@@ -121,9 +111,9 @@ function addSongToPlaylist() {
 }
 
 function searchAlbums() {
-  var searchedArtistId = document.getElementById("searchfield").value;
-  if (searchedArtistId != "") {
-    fetch(`/albums/${searchedArtistId}`).then((res) =>
+  var searchedAlbum = document.getElementById("searchfield").value;
+  if (searchedAlbum != "") {
+    fetch(`/albums/${searchedAlbum}`).then((res) =>
       res.json().then((data) => {
         const l = document.getElementById("displayed_data_list");
         while (l.firstChild) {
@@ -148,7 +138,6 @@ function createPlaylist() {
   var playListName = document.getElementById("playlist_input_name").value;
   if (playListName != "") {
     fetch(`/playlists/create/${playListName}`, { method: "POST" });
-    console.log("Playlist Created Successfully");
   } else {
     console.log("Error When Creating Playlist");
   }
@@ -158,8 +147,29 @@ function deletePlaylist() {
   var playListName = document.getElementById("playlist_input_name").value;
   if (playListName != "") {
     fetch(`/playlists/delete/${playListName}`, { method: "DELETE" });
-    console.log("Playlist Deleted Successfully");
   } else {
     console.log("Error When Deleted Playlist");
   }
+}
+
+function displayPlaylist() {
+  const selectedPlaylist = document.getElementById("dropbtn").value;
+  fetch(`/playlists/tracks/${selectedPlaylist}`).then((res) =>
+    res.json().then((data) => {
+      const l = document.getElementById("displayed_data_list");
+      while (l.firstChild) {
+        l.removeChild(l.firstChild);
+      }
+      data.forEach((e) => {
+        const item = document.createElement("li");
+        item.appendChild(
+          document.createTextNode(
+            `Track ID: ${e.track_id}, Title: ${e.track_title}, Artist: ${e.artist_name}, Album: ${e.album_title}, Duration: ${e.track_duration}`
+          )
+        );
+        item.appendChild;
+        l.appendChild(item);
+      });
+    })
+  );
 }
