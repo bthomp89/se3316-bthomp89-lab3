@@ -218,3 +218,126 @@ async function displayPlaylistInfo() {
     })
   );
 }
+
+async function sortByArtist() {
+  var list = document.getElementById("displayed_data_list");
+  var items = list.childNodes;
+  var itemsArr = [];
+  for (var i in items) {
+    if (items[i].nodeType == 1) {
+      itemsArr.push(items[i]);
+    }
+  }
+
+  itemsArr.sort(function (a, b) {
+    var test = a.innerHTML.match("Artist: ");
+    var testtwo = a.innerHTML.match(", Alb");
+    var testtest = b.innerHTML.match("Artist: ");
+    var testtwotesttwo = b.innerHTML.match(", Alb");
+
+    return a.innerHTML == b.innerHTML
+      ? 0
+      : a.innerHTML.substring(test.index, testtwo.index).toUpperCase() >
+        b.innerHTML
+          .substring(testtest.index, testtwotesttwo.index)
+          .toUpperCase()
+      ? 1
+      : -1;
+  });
+
+  for (i = 0; i < itemsArr.length; ++i) {
+    list.appendChild(itemsArr[i]);
+  }
+}
+
+async function sortByAlbum() {
+  var list = document.getElementById("displayed_data_list");
+  var items = list.childNodes;
+  console.log(items);
+  var itemsArr = [];
+  for (var i in items) {
+    if (items[i].nodeType == 1) {
+      itemsArr.push(items[i]);
+    }
+  }
+
+  itemsArr.sort(function (a, b) {
+    var test = a.innerHTML.match("Album: ");
+    var testtwo = a.innerHTML.match(", Dur");
+    var testtest = b.innerHTML.match("Album: ");
+    var testtwotesttwo = b.innerHTML.match(", Dur");
+
+    return a.innerHTML == b.innerHTML
+      ? 0
+      : a.innerHTML.substring(test.index, testtwo.index).toUpperCase() >
+        b.innerHTML
+          .substring(testtest.index, testtwotesttwo.index)
+          .toUpperCase()
+      ? 1
+      : -1;
+  });
+
+  for (i = 0; i < itemsArr.length; ++i) {
+    list.appendChild(itemsArr[i]);
+  }
+}
+
+async function sortByDuration() {
+  var list = document.getElementById("displayed_data_list");
+  var items = list.childNodes;
+  var itemsArr = [];
+  for (var i in items) {
+    if (items[i].nodeType == 1) {
+      itemsArr.push(items[i]);
+    }
+  }
+
+  itemsArr.sort(function (a, b) {
+    var test = a.innerHTML.match(", Dur");
+    var testtest = b.innerHTML.match(", Dur");
+
+    console.log(test);
+    return a.innerHTML == b.innerHTML
+      ? 0
+      : a.innerHTML.substring(test.index) >
+        b.innerHTML.substring(testtest.index)
+      ? 1
+      : -1;
+  });
+
+  for (i = 0; i < itemsArr.length; ++i) {
+    list.appendChild(itemsArr[i]);
+  }
+}
+
+async function sortByTrack() {
+  var list = document.getElementById("displayed_data_list");
+  var items = list.childNodes;
+  console.log(items);
+  var itemsArr = [];
+  for (var i in items) {
+    if (items[i].nodeType == 1) {
+      itemsArr.push(items[i]);
+    }
+  }
+
+  itemsArr.sort(function (a, b) {
+    var test = a.innerHTML.match("Title: ");
+    var testtwo = a.innerHTML.match(", Art");
+    var testtest = b.innerHTML.match("Title: ");
+    var testtwotesttwo = b.innerHTML.match(", Art");
+
+    return a.innerHTML == b.innerHTML
+      ? 0
+      : a.innerHTML.substring(test.index, testtwo.index).toUpperCase() >
+        b.innerHTML
+          .substring(testtest.index, testtwotesttwo.index)
+          .toUpperCase()
+      ? 1
+      : -1;
+  });
+
+  for (i = 0; i < itemsArr.length; ++i) {
+    list.appendChild(itemsArr[i]);
+  }
+}
