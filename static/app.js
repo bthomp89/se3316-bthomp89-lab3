@@ -1,28 +1,38 @@
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-function dropFunction() {
-  document.getElementById("drop-content").classList.toggle("show");
+function showPlaylist() {
+  fetch("/playlists").then((res) =>
+    res.json().then((data) => {
+      const l = document.getElementById("dropbtn");
+      while (l.firstChild) {
+        l.removeChild(l.firstChild);
+      }
+      data.forEach((e) => {
+        const item = document.createElement("option");
+        const option = document.createTextNode(`${e.TABLE_NAME}`);
+        //l.addEventListener("change", displayPlaylist);
+        item.appendChild(option);
+        l.appendChild(item);
+      });
+    })
+  );
 }
 
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function (event) {
-  if (!event.target.matches(".dropbtn")) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
-      }
-    }
-  }
-};
+/*
+function playlistDropDown(name) {
+  const dropDownBtn = document.getElementById("dropbtn");
+  const dropDownValue = dropDownBtn.value;
+  name = dropDownValue;
+  fetch(`/playlists/${name}`)
+}
+*/
 
 //function to get all genre names, IDs and parent IDs
 function findGenres() {
   fetch("/genres").then((res) =>
     res.json().then((data) => {
       const l = document.getElementById("displayed_data_list");
+      while (l.firstChild) {
+        l.removeChild(l.firstChild);
+      }
       data.forEach((e) => {
         const item = document.createElement("li");
         item.appendChild(
@@ -35,4 +45,121 @@ function findGenres() {
       });
     })
   );
+}
+
+function searchArtists() {
+  var searchedArtistId = document.getElementById("searchfield").value;
+  if (searchedArtistId != "") {
+    fetch(`/artists/name/${searchedArtistId}`).then((res) =>
+      res.json().then((data) => {
+        const l = document.getElementById("displayed_data_list");
+        while (l.firstChild) {
+          l.removeChild(l.firstChild);
+        }
+        data.forEach((e) => {
+          const item = document.createElement("li");
+          item.appendChild(
+            document.createTextNode(
+              `Artist ID: ${e.artist_id}, Artist Name: ${e.artist_name}, Year Begin: ${e.artist_active_year_begin}, Year End: ${e.artist_active_year_end}, Location: ${e.artist_location}, Label: ${e.artist_associated_labels}, Handle: ${e.artist_handle}`
+            )
+          );
+          item.appendChild;
+          l.appendChild(item);
+        });
+      })
+    );
+  }
+}
+
+var trackID;
+var trackTitle;
+var artistName;
+var albumTitle;
+var trackDuration;
+
+function searchTracks() {
+  var searchedValue = document.getElementById("searchfield").value;
+  if (searchedValue != "") {
+    fetch(`/tracks/track_id/${searchedValue}`).then((res) =>
+      res.json().then((data) => {
+        const l = document.getElementById("displayed_data_list");
+        while (l.firstChild) {
+          l.removeChild(l.firstChild);
+        }
+        data.forEach((e) => {
+          const item = document.createElement("li");
+          const addBtn = document.createElement("button");
+          addBtn.id = "add_track_btn";
+          addBtn.addEventListener("click", function () {
+            trackID = `${e.track_id}`;
+            trackTitle = `${e.track_title}`;
+            artistName = `${e.artist_name}`;
+            albumTitle = `${e.album_title}`;
+            trackDuration = `${e.track_duration}`;
+          });
+          addBtn.addEventListener("click", addSongToPlaylist);
+          addBtn.appendChild(document.createTextNode("Add"));
+          item.appendChild(
+            document.createTextNode(
+              `Track ID: ${e.track_id}, Track Title: ${e.track_title}, Artist Name: ${e.artist_name}, Album Name: ${e.album_title}, Duration: ${e.track_duration}    `
+            )
+          );
+          item.appendChild(addBtn);
+          l.appendChild(item);
+        });
+      })
+    );
+  }
+}
+
+function addSongToPlaylist() {
+  const selectedPlaylist = document.getElementById("dropbtn").value;
+  fetch(
+    `/playlists/add/${selectedPlaylist}/${trackID}/${trackTitle}/${artistName}/${albumTitle}/${trackDuration}`,
+    { method: "POST" }
+  );
+}
+
+function searchAlbums() {
+  var searchedArtistId = document.getElementById("searchfield").value;
+  if (searchedArtistId != "") {
+    fetch(`/albums/${searchedArtistId}`).then((res) =>
+      res.json().then((data) => {
+        const l = document.getElementById("displayed_data_list");
+        while (l.firstChild) {
+          l.removeChild(l.firstChild);
+        }
+        data.forEach((e) => {
+          const item = document.createElement("li");
+          item.appendChild(
+            document.createTextNode(
+              `Album ID: ${e.album_id}, Album Title: ${e.album_title}, Tracks: ${e.album_tracks}, Date Released: ${e.album_date_released}`
+            )
+          );
+          item.appendChild;
+          l.appendChild(item);
+        });
+      })
+    );
+  }
+}
+
+function createPlaylist() {
+  var playListName = document.getElementById("playlist_input_name").value;
+  if (playListName != "") {
+    fetch(`/playlists/create/${playListName}`, { method: "POST" });
+    console.log("Playlist Created Successfully");
+  } else {
+    console.log("Error When Creating Playlist");
+  }
+}
+
+function deletePlaylist() {
+  var playListName = document.getElementById("playlist_input_name").value;
+  if (playListName != "") {
+    fetch(`/playlists/delete/${playListName}`, { method: "DELETE" });
+    console.log("Playlist Deleted Successfully");
+  } else {
+    console.log("Error When Deleted Playlist");
+  }
 }

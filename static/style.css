@@ -52,43 +52,19 @@ li button:hover {
   text-align: center;
 }
 
+#playlist_features {
+  padding-top: 165%;
+}
+
 .create_playlist_btn {
-  position: absolute;
-  bottom: 30%;
-  width: 130px;
-  right: 89.65%;
+  margin-top: 5%;
+  width: 80%;
 }
 
-.dropbtn {
-  margin-top: 15px;
+.delete_playlist_btn {
+  margin-top: 5%;
+  width: 80%;
 }
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: white;
-  z-index: 1;
-  padding-left: 5px;
-}
-
-.show {
-  display: block;
-}
-
-#create_playlist_label {
-  position: absolute;
-  display: flex;
-  bottom: 39%;
-  align-self: center;
-}
-
-#create_playlist_input {
-  position: absolute;
-  display: flex;
-  max-width: 15%;
-  bottom: 36%;
-}
-
 #displayed_data {
   background-color: white;
   border: 1px;
@@ -100,4 +76,12 @@ li button:hover {
 #big_div {
   display: flex;
   gap: 2rem;
+}
+
+#add_track_btn {
+  padding: 1px;
+
+  background-color: #dddddd;
+  width: 5%;
+  height: 1%;
 }

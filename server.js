@@ -50,6 +50,7 @@ app.get("/artists/:id", (req, res) => {
       console.error(err);
       return;
     }
+    console.log(data);
     res.send(data);
   });
 });
@@ -85,9 +86,8 @@ app.get("/tracks/:track_id", (req, res) => {
 
 //Get the first n number of matching track IDs for a given search pattern matching the track title or album.
 //If the number of matches is less than n, then return all matches. Please feel free to pick a suitable value for n.
-//NOTE: HAVE TO ADD IN THE N PART
 app.get("/tracks/track_id/:search_field", (req, res) => {
-  let query = `SELECT track_id FROM Tracks WHERE track_title LIKE '%${req.params.search_field}%' OR album_title LIKE '%${req.params.search_field}%';`;
+  let query = `SELECT track_id, track_title, artist_name, album_title, track_duration FROM Tracks WHERE track_title LIKE '%${req.params.search_field}%' OR album_title LIKE '%${req.params.search_field}%' LIMIT 15;`;
 
   connection.query(query, (err, data) => {
     if (err) {
@@ -99,8 +99,10 @@ app.get("/tracks/track_id/:search_field", (req, res) => {
 });
 
 //Get all the matching artist IDs for a given search pattern matching the artist's name.
-app.get("/artists/artist_id/:search_field", (req, res) => {
-  let query = `SELECT artist_id FROM Artists WHERE artist_name LIKE '%${req.params.search_field}%';`;
+app.get("/artists/name/:name", (req, res) => {
+  let query = `SELECT artist_id, artist_name, 
+  artist_active_year_begin, artist_active_year_end, 
+  artist_location, artist_associated_labels, artist_handle FROM Artists WHERE artist_name LIKE '%${req.params.name}%';`;
 
   connection.query(query, (err, data) => {
     if (err) {
@@ -115,7 +117,11 @@ app.get("/artists/artist_id/:search_field", (req, res) => {
 //NOTE: NEED TO ADD ERROR PART
 app.post("/playlists/create/:name", (req, res) => {
   let query = `CREATE TABLE IF NOT EXISTS ${req.params.name} (
-    track_id INT NOT NULL PRIMARY KEY
+    track_id INT NOT NULL PRIMARY KEY,
+    track_title VARCHAR(255),
+    artist_name VARCHAR(150),
+    album_title VARCHAR(255),
+    track_duration VARCHAR(50)
   )`;
 
   connection.query(query, (err, data) => {
@@ -131,17 +137,19 @@ app.post("/playlists/create/:name", (req, res) => {
 //Return an error if the list name does not exist.
 //Replace existing track IDs with new values if the list exists
 //NOTE: ADD PART 2 and 3 of this question
-app.post("/playlists/add/:playlist_name/:track_id", (req, res) => {
-  let query = `INSERT INTO ${req.params.playlist_name} VALUES (${req.params.track_id})`;
-
-  connection.query(query, (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    res.send(data);
-  });
-});
+app.post(
+  "/playlists/add/:playlist_name/:track_id/:track_title/:artist_name/:album_title/:duration",
+  (req, res) => {
+    let query = `INSERT INTO ${req.params.playlist_name} VALUES (${req.params.track_id}, '${req.params.track_title}', '${req.params.artist_name}', '${req.params.album_title}', '${req.params.duration}');`;
+    connection.query(query, (err, data) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.send(data);
+    });
+  }
+);
 
 //Get the list of track IDs for a given list
 app.get("/playlists/tracks/:playlist_name", (req, res) => {
@@ -181,6 +189,19 @@ app.get("/playlists", (req, res) => {
   AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Genres' 
   AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Tracks'
   AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Tracks';`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    res.send(data);
+  });
+});
+
+//get album info given album name
+app.get("/albums/:name", (req, res) => {
+  let query = `SELECT album_id, album_title, album_tracks, album_date_released FROM Albums WHERE album_title LIKE '%${req.params.name}%' LIMIT 15;`;
 
   connection.query(query, (err, data) => {
     if (err) {

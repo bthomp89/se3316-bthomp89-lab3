@@ -15,13 +15,13 @@
           <button onclick="findGenres()" id="genrebtn">Genre</button>
         </li>
         <li>
-          <button id="albumbtn">Album</button>
+          <button onclick="searchAlbums()" id="albumbtn">Album</button>
         </li>
         <li>
-          <button id="artistbtn">Artist</button>
+          <button onclick="searchArtists()" id="artistbtn">Artist</button>
         </li>
         <li>
-          <button id="trackbtn">Track</button>
+          <button onclick="searchTracks()" id="trackbtn">Track</button>
         </li>
         <li id="search_li">
           <label for="searchfield">Search</label>
@@ -31,21 +31,19 @@
     </nav>
     <div id="big_div">
       <div id="playlists" class="playlist_table">
-        <div class="dropdown">
-          <button onclick="dropFunction()" class="dropbtn">Playlists ></button>
-          <div id="drop-content" class="dropdown-content">
-            <p>PL1</p>
-            <p>PL2</p>
-            <p>PL3</p>
-          </div>
+        <select onclick="showPlaylist()" id="dropbtn">
+          <option selected disabled hidden>Select Playlist</option>
+        </select>
+        <div id="playlist_features">
+          <label for="playlist_input_name">Playlist Name</label>
+          <input id="playlist_input_name" />
+          <button onclick="createPlaylist()" class="create_playlist_btn">
+            Create Playlist
+          </button>
+          <button onclick="deletePlaylist()" class="delete_playlist_btn">
+            Delete Playlist
+          </button>
         </div>
-        <label for="create_playlist_name" id="create_playlist_label">
-          New Playlist Name:
-        </label>
-        <input id="create_playlist_input" />
-        <button onclick="createPlaylist()" class="create_playlist_btn">
-          Create Playlist
-        </button>
       </div>
 
       <div id="displayed_data">
