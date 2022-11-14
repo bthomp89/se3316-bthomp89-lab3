@@ -8,10 +8,10 @@ const cors = require("cors");
 
 // Create a connection to the database
 const connection = mysql.createConnection({
-  host: dbConfig.HOST,
-  user: dbConfig.USER,
-  password: dbConfig.PASSWORD,
-  database: dbConfig.DB,
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "lab3",
 });
 
 const app = express();
