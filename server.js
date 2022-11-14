@@ -186,10 +186,10 @@ app.delete("/playlists/delete/:playlist_name", (req, res) => {
 app.get("/playlists", (req, res) => {
   let query = `SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE 
   TABLE_SCHEMA = 'lab3' AND TABLE_NAME NOT LIKE 'Albums' 
-  AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Artists' 
-  AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Genres' 
-  AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Tracks'
-  AND TABLE_SCHEMA = 'se3316-bthomp89-lab3' AND TABLE_NAME NOT LIKE 'Tracks';`;
+  AND TABLE_SCHEMA = 'lab3' AND TABLE_NAME NOT LIKE 'Artists' 
+  AND TABLE_SCHEMA = 'lab3' AND TABLE_NAME NOT LIKE 'Genres' 
+  AND TABLE_SCHEMA = 'lab3' AND TABLE_NAME NOT LIKE 'Tracks'
+  AND TABLE_SCHEMA = 'lab3' AND TABLE_NAME NOT LIKE 'Tracks';`;
 
   connection.query(query, (err, data) => {
     if (err) {
